@@ -16,11 +16,13 @@ public class Runner implements CommandLineRunner {
 		this.receiver = receiver;
 		this.rabbitTemplate = rabbitTemplate;
 	}
-
+	// 启动后自动运行
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Sending message...");
-		rabbitTemplate.convertAndSend(MessagingRabbitmqApplication.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
+		rabbitTemplate.convertAndSend(MessagingRabbitmqApplication.topicExchangeName,
+				"foo.bar.baz", "Hello from RabbitMQ!");
+		// 等待latch降为0后结束
 		receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
 	}
 

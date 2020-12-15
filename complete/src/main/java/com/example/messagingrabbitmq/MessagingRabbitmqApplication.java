@@ -27,7 +27,7 @@ public class MessagingRabbitmqApplication {
 	TopicExchange exchange() {
 		return new TopicExchange(topicExchangeName);
 	}
-
+	// 所有以foo.bar.开头的消息
 	@Bean
 	Binding binding(Queue queue, TopicExchange exchange) {
 		return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
@@ -49,6 +49,7 @@ public class MessagingRabbitmqApplication {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+		// 注意此处close()
 		SpringApplication.run(MessagingRabbitmqApplication.class, args).close();
 	}
 
